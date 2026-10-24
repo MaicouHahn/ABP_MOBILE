@@ -23,7 +23,7 @@ Protótipo completo (Figma): https://www.figma.com/design/cE8d6YVtWiO9QyuOXTC2aR
 ### 1. Baixar o projeto
 
 ```bash
-git clone https://github.com/<equipe>/acolher.git
+git clone https://github.com/MaicouHahn/ABP_MOBILE.git
 cd acolher
 ```
 
