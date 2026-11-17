@@ -99,7 +99,7 @@ npx expo install expo-font @expo-google-fonts/nunito react-native-safe-area-cont
 
 | Integrante | Papel |
 |---|---|
-| _Nome 1_ | Product Owner |
-| _Nome 2_ | Scrum Master |
-| _Nome 3_ | Desenvolvimento / UX |
-| _Nome 4_ | Desenvolvimento |
+| _[Maicou](https://github.com/MaicouHahn)_ | Product Owner |
+| _[Guilherme](https://github.com/gvm7b)_ | Scrum Master |
+| _[Yasmin](https://github.com/bfontanayasmin)_ | Desenvolvimento / UX |
+| _[Evandro Luiz](https://github.com/evandroluizrd)_ | Desenvolvimento |
