@@ -16,13 +16,15 @@ import { Feather } from "@expo/vector-icons";
 import { TextField } from "../components/TextField";
 import { Button } from "../components/Button";
 import { colors, fonts, radius } from "../theme";
+import { useDados } from "../data/DadosContext";
 
 /**
  * Tela de login do Acolher.
- * Nesta primeira versão a validação é apenas local (campos preenchidos).
- * A autenticação com a API (usuário, senha e token) entra na próxima sprint.
+ * Nesta versão a validação é apenas local (campos preenchidos) e qualquer
+ * usuário entra. A autenticação com a API (usuário, senha e token) vem depois.
  */
 export function LoginScreen() {
+  const { entrar } = useDados();
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [erro, setErro] = useState<string | null>(null);
@@ -33,7 +35,11 @@ export function LoginScreen() {
       return;
     }
     setErro(null);
-    Alert.alert("Acolher", `Olá, ${usuario.trim()}! A conexão com o servidor chega na próxima versão.`);
+    entrar(usuario);
+  }
+
+  function esqueciSenha() {
+    Alert.alert("Esqueci minha senha", "Peça à coordenação para redefinir seu acesso.");
   }
 
   return (
@@ -84,7 +90,7 @@ export function LoginScreen() {
               </View>
             )}
 
-            <Pressable hitSlop={8}>
+            <Pressable hitSlop={8} onPress={esqueciSenha}>
               <Text style={styles.link}>Esqueci minha senha</Text>
             </Pressable>
 
