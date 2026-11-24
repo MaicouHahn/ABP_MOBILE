@@ -27,6 +27,7 @@ export function RegistroRapidoScreen({ route, navigation }: TelaRaizProps<"Regis
   const [quantidade, setQuantidade] = useState<string | undefined>();
   const [observacao, setObservacao] = useState("");
   const [erro, setErro] = useState<string | null>(null);
+  const [salvando, setSalvando] = useState(false);
   const [agora, setAgora] = useState(new Date());
 
   // Atualiza o horário mostrado no botão a cada 30 segundos.
@@ -44,7 +45,8 @@ export function RegistroRapidoScreen({ route, navigation }: TelaRaizProps<"Regis
     setErro(null);
   }
 
-  function registrar() {
+  async function registrar() {
+    if (salvando) return;
     if (acolhidoObrigatorio && !acolhidoId) {
       setErro("Escolha para quem é o registro.");
       return;
@@ -53,13 +55,21 @@ export function RegistroRapidoScreen({ route, navigation }: TelaRaizProps<"Regis
       setErro("Descreva a ronda ou a ocorrência na observação.");
       return;
     }
-    adicionarRegistro({
-      tipo,
-      acolhidoId,
-      quantidade,
-      observacao: observacao.trim() || undefined,
-    });
-    navigation.navigate("Abas", { screen: "Plantao" });
+    setSalvando(true);
+    setErro(null);
+    try {
+      await adicionarRegistro({
+        tipo,
+        acolhidoId,
+        quantidade,
+        observacao: observacao.trim() || undefined,
+      });
+      navigation.navigate("Abas", { screen: "Plantao" });
+    } catch {
+      setErro("Não foi possível salvar. Verifique a conexão e tente novamente.");
+    } finally {
+      setSalvando(false);
+    }
   }
 
   return (
@@ -150,7 +160,7 @@ export function RegistroRapidoScreen({ route, navigation }: TelaRaizProps<"Regis
 
       {erro && <Text style={styles.erro}>{erro}</Text>}
 
-      <Button title={`Registrar agora · ${hora(agora)}`} icone="check" onPress={registrar} />
+      <Button title={`Registrar agora · ${hora(agora)}`} icone="check" onPress={registrar} loading={salvando} />
       <Text style={styles.nota}>Hora e educadora são preenchidas automaticamente.</Text>
     </Tela>
   );
@@ -177,3 +187,4 @@ const styles = StyleSheet.create({
   erro: { fontFamily: fonts.bold, fontSize: 13, color: colors.danger },
   nota: { fontFamily: fonts.regular, fontSize: 12, color: colors.muted, textAlign: "center" },
 });
+
